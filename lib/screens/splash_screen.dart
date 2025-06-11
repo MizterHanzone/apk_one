@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:home_work_one/routes/app_route.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
+
+  Future<void> _continueAsGuest(BuildContext context) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString("username", "Guest");
+    AppRoute.key.currentState?.pushReplacementNamed(AppRoute.mainScreen);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,10 +61,34 @@ class SplashScreen extends StatelessWidget {
                     ),
                     child: const Text(
                       "Get Started",
-                      style: TextStyle(fontSize: 16),
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
-                )
+                ),
+                const SizedBox(height: 16),
+                SizedBox(
+                  width: double.infinity,
+                  height: 48,
+                  child: OutlinedButton(
+                    onPressed: () => _continueAsGuest(context),
+                    style: OutlinedButton.styleFrom(
+                      side: const BorderSide(color: Colors.redAccent),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    child: const Text(
+                      "Continue as Guest",
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.redAccent,
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),

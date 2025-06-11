@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:home_work_one/routes/app_route.dart';
-import 'package:home_work_one/screens/main_screen.dart';
 import 'package:home_work_one/screens/splash_screen.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 

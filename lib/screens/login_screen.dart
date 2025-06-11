@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:home_work_one/data/app_shared_preference.dart';
 import 'package:home_work_one/routes/app_route.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -34,7 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(Icons.lock, size: 80, color: Colors.redAccent),
+                _logo,
                 const SizedBox(height: 24),
                 Text(
                   "Login",
@@ -49,10 +51,25 @@ class _LoginScreenState extends State<LoginScreen> {
                 _passwordField,
                 const SizedBox(height: 24),
                 _loginButton,
+                const SizedBox(height: 24),
+                _navigateToRegister,
+                const SizedBox(height: 24),
+                _socialLogin,
               ],
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget get _logo {
+    return Padding(
+        padding: EdgeInsets.only(bottom: 16),
+      child: Image.asset(
+        "lib/assets/images/flutter.png",
+        width: 100,
+        height: 100,
       ),
     );
   }
@@ -93,7 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget get _passwordField {
     return TextFormField(
       onChanged: (value){
-        if(value.length > 6){
+        if(value.length >= 6){
           setState(() {
             _isValidPassword = true;
           });
@@ -123,6 +140,48 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  Widget get _navigateToRegister{
+    return Padding(
+      padding: EdgeInsets.only(bottom: 16),
+      child: TextButton(
+          onPressed: (){
+            AppRoute.key.currentState?.pushNamed(AppRoute.registerScreen);
+          },
+          child: Text(
+            "Don't have account? Register"
+          ),
+      ),
+    );
+  }
+
+  Widget get _socialLogin {
+    return Padding(
+        padding: EdgeInsets.only(bottom: 16, top: 16),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          IconButton(
+              onPressed: (){},
+              icon: Image.asset(
+                "lib/assets/images/google.png",
+                width: 50,
+                height: 50,
+              ),
+          ),
+          SizedBox(width: 20,),
+          IconButton(
+            onPressed: (){},
+            icon: Image.asset(
+              "lib/assets/images/facebook.png",
+              width: 50,
+              height: 50,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget get _loginButton {
     return SizedBox(
       width: double.infinity,
@@ -132,14 +191,30 @@ class _LoginScreenState extends State<LoginScreen> {
           backgroundColor: Colors.redAccent,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         ),
-        onPressed: () {
+        onPressed: () async {
+          await AppSharedPref.register("Kheav Sokhan", "sokhankheav@gmail.com", "123456");
+
           if (_formKey.currentState!.validate()) {
-            AppRoute.key.currentState!.pushReplacementNamed(AppRoute.mainScreen);
-          }else{
-            
+            String email = _emailController.text.trim();
+            String password = _passwordController.text.trim();
+
+            bool isValid = await AppSharedPref.login(email, password);
+            if (isValid) {
+              AppRoute.key.currentState!.pushReplacementNamed(AppRoute.mainScreen);
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text("Invalid email or password")),
+              );
+            }
           }
         },
-        child: const Text("Login", style: TextStyle(fontSize: 16)),
+        child: const Text(
+            "Login",
+            style: TextStyle(
+                fontSize: 16,
+              color: Colors.white
+            ),
+        ),
       ),
     );
   }
