@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:home_work_one/screens/cart_screen.dart';
 import 'package:home_work_one/screens/login_screen.dart';
 import 'package:home_work_one/screens/main_screen.dart';
 import 'package:home_work_one/screens/register_screen.dart';
@@ -10,6 +11,7 @@ class AppRoute {
   static const String loginScreen = "loginScreen";
   static const String registerScreen = "registerScreen";
   static const String mainScreen = "mainScreen";
+  static const String cartScreen = "cartScreen";
 
   static final key = GlobalKey<NavigatorState>();
 
@@ -23,6 +25,8 @@ class AppRoute {
         return _buildRoute(routeSettings, RegisterScreen());
       case mainScreen:
         return _buildRoute(routeSettings, MainScreen());
+      case cartScreen:
+        return _buildRoute(routeSettings, CartScreen());
       default:
         throw RouteException("Route not found!");
     }

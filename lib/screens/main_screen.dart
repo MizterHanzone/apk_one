@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:home_work_one/screens/cart_screen.dart';
 import 'package:home_work_one/screens/favorite_screen.dart';
 import 'package:home_work_one/screens/home_screen.dart';
 import 'package:home_work_one/screens/more_screen.dart';
@@ -17,7 +18,7 @@ class _MainScreenState extends State<MainScreen> {
   List<Widget> screenList = [
     HomeScreen(),
     FavoriteScreen(),
-    NotificationScreen(),
+    CartScreen(),
     MoreScreen(),
   ];
 
@@ -38,7 +39,7 @@ class _MainScreenState extends State<MainScreen> {
     final items = [
       BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
       BottomNavigationBarItem(icon: Icon(Icons.favorite), label: "Favorite"),
-      BottomNavigationBarItem(icon: Icon(Icons.notifications), label: "Notification"),
+      BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: "Car"),
       BottomNavigationBarItem(icon: Icon(Icons.more), label: "More"),
     ];
    return BottomNavigationBar(
